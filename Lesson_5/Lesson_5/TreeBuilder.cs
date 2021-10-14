@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Task_2
+namespace Lesson_5
 {
     class TreeBuilder
     {
@@ -19,6 +19,51 @@ namespace Task_2
             public Node<T> Right { get; set; }
             public Node<T> Parent { get; set; }
         }
+
+        /// <summary>
+        ///  BFS (breadth-first serche) Обход дерева в ширену созданного дерева
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="root"></param>
+        public static Node<int> BFSTravers(Node<int> root, int value)
+        {
+            var queue = new Queue<Node<int>>();
+            // Добавить элемент в очередь
+            queue.Enqueue(root);// Добавление нового элемента в конец очереди.
+            while (queue.Count != 0)// Если очередь пуста завершить работу
+            {
+                // Извлечь из очереди элемент
+                var root1 = queue.Dequeue();
+                if (root1.Data == value)
+                    return root1;
+                if (root1.Right != null)
+                    queue.Enqueue(root1.Right);
+                if (root1.Left != null)
+                    queue.Enqueue(root1.Left);
+            }
+            return null;
+        }
+
+        internal static Node<int> DFSTravers(Node<int> root, int value)
+        {
+            var stack = new Stack<Node<int>>();
+            // Добавить элемент в стек
+            stack.Push(root);// Добавление нового элемента в стек.
+
+            while (stack.Count != 0)// Если стек пуст завершить работу
+            {
+                // Извлечь из стека элемент
+                var root1 = stack.Pop();
+                if (root1.Data == value)
+                    return root1;
+                if (root1.Right != null)
+                    stack.Push(root1.Right);
+                if (root1.Left != null)
+                    stack.Push(root1.Left);
+            }
+            return null;
+        }
+
         /// <summary>
         /// Удаление узлов с заданным значением
         /// </summary>
@@ -26,7 +71,6 @@ namespace Task_2
         /// <param name="value">Значение удаляемого узла</param>
         internal static void RemuveNode(Node<int> root, int value)
         {
-
             if (root.Right != null || root.Left != null)
             {
                 if (root.Left != null)
@@ -95,7 +139,7 @@ namespace Task_2
                     else
                         serchedNode = FindNode(root.Right, value);
                 }
-            } 
+            }
             return serchedNode;
         }
 
@@ -114,6 +158,7 @@ namespace Task_2
                 Console.Write(")");
             }
         }
+
         // Обратный обход дерева
         public static void PostOrderTravers<T>(Node<T> root, string p = "")
         {
@@ -144,10 +189,5 @@ namespace Task_2
             }
             return newNode;
         }
-
-
-
-
-
     }
 }
